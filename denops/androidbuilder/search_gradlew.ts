@@ -1,6 +1,6 @@
 async function ExistGradlew(filepath: string): Promise<boolean> {
     for await (const dirEntry of Deno.readDir(filepath)) {
-        if (dirEntry.name === "Gradlew") {
+        if (dirEntry.name === "gradlew") {
             return true;
         }
     }
@@ -8,33 +8,32 @@ async function ExistGradlew(filepath: string): Promise<boolean> {
     return false;
 }
 
-async function SearchGradlew(): Promise<string> {
-    let path = "./";
-
+async function SearchGradlew(pwd: string): Promise<string> {
+    let path = pwd;
 
     let existGradlew: boolean = false;
 
-    let currentDir = new URL(path, import.meta.url).pathname;
     while (true) {
-
-        if (await ExistGradlew(currentDir)) {
+        console.log(path);
+        if (await ExistGradlew(path)) {
             existGradlew = true;
             break;
         }
 
-        if (currentDir === "/home/") {
+        if (new URL(path, import.meta.url).pathname === "/home/") {
             break;
         }
 
         path = path + "../";
-        currentDir = new URL(path, import.meta.url).pathname;
     }
 
     if (existGradlew) {
-        return currentDir;
+        return new URL(path, import.meta.url).pathname;
     } else {
         return "error: `Gradlew` is not found in current directory";
     }
 }
+
+console.log(await SearchGradlew(new URL('./', import.meta.url).pathname))
 
 export default SearchGradlew;
