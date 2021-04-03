@@ -3,13 +3,16 @@ import SearchGradlew from "./search_gradlew.ts";
 
 start(async (vim) => {
     vim.register({
-        async install_debug(): Promise<void> {
+        async execute_androidbuilder(cmd: unknown): Promise<void> {
+            if (typeof cmd !== "string") {
+                throw new Error(`'cmd' attribute of 'execute_androidbuilder' in must be a string`);
+            }
+
             const nowDir = await vim.call('getcwd') as string;
 
             const path = await SearchGradlew(nowDir + "/");
 
             if (path === "error: `Gradlew` is not found in current directory") {
-                console.log("da;slkfja;klgjarg;lrkjg");
                 return;
             }
 
@@ -17,7 +20,7 @@ start(async (vim) => {
             console.log("a");
             await vim.cmd('cd ' + path);
 
-            await vim.cmd('!./gradlew installDebug')
+            await vim.cmd(`!./gradlew ${cmd}`);
 
             await vim.cmd('cd ' + nowDir);
 
@@ -29,7 +32,7 @@ start(async (vim) => {
     });
 
     vim.execute(`
-        command! AndroidBuilder :call denops#request("androidbuilder", "install_debug", [])
+        command! InstallDebug :call denops#request("androidbuilder", "execute_androidbuilder", ["installDebug"])
         command! AndroidBuilderHello :call denops#request("androidbuilder", "hello", [])
     `)
 
