@@ -18,11 +18,11 @@ start(async (vim) => {
 
 
             console.log("a");
-            await vim.cmd('cd ' + path);
+            await vim.cmd(`cd ${path}`);
 
             await vim.cmd(`!./gradlew ${cmd}`);
 
-            await vim.cmd('cd ' + nowDir);
+            await vim.cmd(`cd ${nowDir}`);
 
         },
 
@@ -33,6 +33,7 @@ start(async (vim) => {
 
     vim.execute(`
         command! InstallDebug :call denops#request("androidbuilder", "execute_androidbuilder", ["installDebug"])
+        command! AssembleDebug :call denops#request("androidbuilder", "execute_androidbuilder", ["assembleDebug"])
         command! AndroidBuilderHello :call denops#request("androidbuilder", "hello", [])
     `)
 
