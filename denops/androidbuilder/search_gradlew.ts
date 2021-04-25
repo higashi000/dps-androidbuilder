@@ -14,7 +14,6 @@ async function SearchGradlew(pwd: string): Promise<string> {
     let existGradlew: boolean = false;
 
     while (true) {
-        console.log(path);
         if (await ExistGradlew(path)) {
             existGradlew = true;
             break;
@@ -33,7 +32,5 @@ async function SearchGradlew(pwd: string): Promise<string> {
         return "error: `Gradlew` is not found in current directory";
     }
 }
-
-console.log(await SearchGradlew(new URL('./', import.meta.url).pathname))
 
 export default SearchGradlew;

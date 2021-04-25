@@ -17,17 +17,12 @@ start(async (vim) => {
             }
 
 
-            console.log("a");
             await vim.cmd(`cd ${path}`);
 
             await vim.cmd(`!./gradlew ${cmd}`);
 
             await vim.cmd(`cd ${nowDir}`);
 
-        },
-
-        async hello(): Promise<void> {
-            console.log("hogehogejfa;ldkjas;dkljbva");
         },
     });
 
